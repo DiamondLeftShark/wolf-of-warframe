@@ -1,2 +1,4 @@
+node_modules
+
 #TBD: move credentials out of database index file
 database/index.js
