@@ -1,0 +1,11 @@
+{
+  "name": "wolf_of_warframe",
+  "version": "1.0.0",
+  "description": "Market tracking and other support for Warframe in-game trading.",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
