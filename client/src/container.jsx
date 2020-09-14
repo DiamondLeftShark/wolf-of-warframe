@@ -2,18 +2,48 @@
 import React from 'react';
 import Menu from './menu.jsx';
 import Landing from './landing.jsx';
+import Ducats from './ducats.jsx';
+import HotItems from './hot_items.jsx';
 
 class Container extends React.Component {
   constructor(props){
     super(props);
+
+    this.state = {
+      currentTab: 'landing'
+    };
+    this.getCurrentTab = this.getCurrentTab.bind(this);
+    this.setCurrentTab = this.setCurrentTab.bind(this);
   }
 
+  //check current tab and return appropriate component
+  getCurrentTab() {
+    if(this.state.currentTab === 'landing') {
+      return <Landing />;
+    }
+    if(this.state.currentTab === 'ducats') {
+      return <Ducats />;
+    }
+    if(this.state.currentTab === 'hot') {
+      return <HotItems />;
+    }
+    //default to landing page if invalid tab is provided
+    else {
+      return <Landing />;
+    }
+  }
+
+  //set current tab based on argument passed to function
+  setCurrentTab(tab) {
+    this.setState({currentTab: tab});
+  }
 
   render() {
+    let currentTab = this.getCurrentTab();
     return(<div>
-            <Menu />
+            <Menu setTab={this.setCurrentTab}/>
             <h1>Testing!</h1>
-            <Landing />
+            {currentTab}
            </div>
     );
   }

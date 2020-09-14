@@ -8,7 +8,7 @@ class HotItems extends React.Component {
   }
 
   render() {
-    return(<h3>TBD</h3>);
+    return(<h3>Hot items TBD</h3>);
   }
 }
 

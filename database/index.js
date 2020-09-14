@@ -137,6 +137,22 @@ var getData = function(callback) {
   });
 }
 
+//retrieve ducat information stored in the database.
+var getDucatList = function(page=0, limit=100, callback) {
+  //calculate offset from page * limit;
+  let offset = page * limit;
+  db.query(`select item_name, ducats, ducats_per_plat, thumb from item_info, ducat_info where item_info.id = ducat_info.item_id order by ducats_per_plat desc, item_name limit ${limit} offset ${offset};`, function(error, result) {
+    if(error) {
+      console.log("Error retrieving ducat data from local database.");
+      callback(null);
+    } else {
+      console.log(`Ducat data for page ${page} with ${limit} records retrieved`);
+      callback(result);
+    }
+  });
+}
+
 module.exports.updateDate = updateDate;
 module.exports.getUpdateDate = getUpdateDate;
 module.exports.getData = getData;
+module.exports.getDucatList = getDucatList;

@@ -37,7 +37,10 @@ class Landing extends React.Component {
 
   render() {
     console.log(this.state);
-    return(<h3>Data current as of {this.state.date}</h3>);
+    return(<div id="landing">
+            <h3>Data current as of {this.state.date}.</h3>
+            <h3>Select an option from the menu to continue.</h3>
+          </div>);
   }
 }
 
