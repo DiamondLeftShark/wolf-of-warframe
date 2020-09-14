@@ -82,7 +82,20 @@ var updateDate = function(callback) {
       callback(true);
     }
   })
-}
+};
+
+//gets most recent update date from database
+var getUpdateDate = function(callback) {
+  db.query(`select last_updated from update_log order by last_updated limit 1;`, function(error, result) {
+    if(error) {
+      console.log("Error retrieving latest update date.");
+      console.log(error);
+      callback(null);
+    } else {
+      callback(result);
+    }
+  });
+};
 
 //connect to WFM and populate database with latest data
 var getData = function(callback) {
@@ -124,5 +137,6 @@ var getData = function(callback) {
   });
 }
 
-module.exports.getData = getData;
 module.exports.updateDate = updateDate;
+module.exports.getUpdateDate = getUpdateDate;
+module.exports.getData = getData;
