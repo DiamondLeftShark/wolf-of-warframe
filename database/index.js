@@ -61,7 +61,13 @@ function replaceDucatInfo(dataSet, callback) {
   });
 }
 
-/*------------------------------Server calls------------------------------------------*/
+//populates user inventory with item IDs for further manipulation from user.  Since table tracks user items,
+//should only insert records for items that do not currently exist.
+function populateInventory(callback) {
+  console.log("TBD");
+}
+
+/*------------------------------Public functions------------------------------------------*/
 
 //Updates update_log with current datetime value
 var updateDate = function(callback) {
