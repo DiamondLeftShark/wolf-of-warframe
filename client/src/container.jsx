@@ -16,11 +16,19 @@ class Container extends React.Component {
     };
     this.getCurrentTab = this.getCurrentTab.bind(this);
     this.setCurrentTab = this.setCurrentTab.bind(this);
+    this.getLatestData = this.getLatestData.bind(this);
   }
 
   //gets latest data from Warframe Market API and updates the database.
   getLatestData() {
-
+    let url = rootUrl.concat('latest');
+    axios.get(url)
+    .then((result) => {
+      console.log("Latest data from Warframe Market retrieved.");
+    })
+    .catch((error) => {
+      console.log("Error updating data, please try again.");
+    });
   }
 
   //check current tab and return appropriate component
@@ -48,8 +56,7 @@ class Container extends React.Component {
   render() {
     let currentTab = this.getCurrentTab();
     return(<div>
-            <Menu setTab={this.setCurrentTab}/>
-            <h1>Testing!</h1>
+            <Menu setTab={this.setCurrentTab} getLatestData={this.getLatestData}/>
             {currentTab}
            </div>
     );

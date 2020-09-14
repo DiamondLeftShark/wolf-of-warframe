@@ -11,7 +11,7 @@ class Menu extends React.Component {
         <ul>
           <li onClick={()=>{this.props.setTab('ducats')}}>Ducats</li>
           <li onClick={()=>{this.props.setTab('hot')}}>Hot Items</li>
-          <li>Get Latest Data</li>
+          <li onClick={this.props.getLatestData}>Get Latest Data</li>
         </ul>
       </div>
     );

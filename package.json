@@ -26,6 +26,6 @@
     "webpack": "^4.44.1",
     "nodemon": "^2.0.4",
     "brotli-webpack-plugin": "^1.1.0",
-    "compression-webpack-plugin": "^6.0.0",
+    "compression-webpack-plugin": "^6.0.0"
   }
 }

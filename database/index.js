@@ -86,7 +86,7 @@ var updateDate = function(callback) {
 
 //gets most recent update date from database
 var getUpdateDate = function(callback) {
-  db.query(`select last_updated from update_log order by last_updated limit 1;`, function(error, result) {
+  db.query(`select last_updated from update_log order by last_updated desc limit 1;`, function(error, result) {
     if(error) {
       console.log("Error retrieving latest update date.");
       console.log(error);
