@@ -1,4 +1,4 @@
-//displays Ducat information
+//displays items by active trading volume
 import React from 'react';
 
 

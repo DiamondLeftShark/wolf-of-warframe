@@ -17,7 +17,8 @@ app.get('/lastupdate', function(req, res) {
     if(result === null) {
       res.status(500).end();
     } else {
-      res.send(result);
+      console.log(result[0].last_updated);
+      res.send(result[0].last_updated);
     }
   })
 });
