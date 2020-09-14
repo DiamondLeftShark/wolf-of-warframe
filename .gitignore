@@ -1,4 +1,7 @@
 node_modules
 
 #TBD: move credentials out of database index file
-database/index.js
+database/db_connection.js
+
+#sample files
+apis/warframe_market/sample_data/
