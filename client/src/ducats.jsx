@@ -1,5 +1,9 @@
 //displays Ducat information
 import React from 'react';
+import axios from 'axios';
+
+import rootUrl from './url.jsx';
+import wfmAssetUrl from './wfm_asset_url.jsx';
 
 
 class Ducats extends React.Component {
@@ -7,7 +11,9 @@ class Ducats extends React.Component {
     super(props);
 
     this.state = {
-      ducatData: null
+      ducatData: null,
+      page: 0,
+      limit: 50
     }
 
     this.generateList = this.generateList.bind(this);
@@ -18,18 +24,40 @@ class Ducats extends React.Component {
     if(this.state.ducatData === null) {
       return(<div>Retrieving data...</div>);
     } else {
-      return(<div>Data listing TBD</div>);
+      let output = [];
+      for(let i = 0; i < this.state.ducatData.length; i++) {
+        let thumbnailUrl = wfmAssetUrl.concat(this.state.ducatData[i].thumb);
+        output.push(<div>
+                      <img src={thumbnailUrl}/>
+                      <div>{this.state.ducatData[i].item_name}</div>
+                      <div>Value: {this.state.ducatData[i].ducats}</div>
+                      <div>Ducats/platinum: {this.state.ducatData[i].ducats_per_plat}</div>
+                    </div>);
+      }
+      return(output);
     }
   }
 
   //get latest data from the database
+  //TBD: pass in page/offset information
   componentDidMount() {
-
+    let url = rootUrl.concat('ducats');
+    axios.get(url)
+    .then((results) => {
+      console.log(results);
+      this.setState({ducatData: results.data});
+    })
+    .catch((error) => {
+      console.log("error");
+    })
   }
 
   render() {
     let data = this.generateList();
-    return(data);
+    console.log(data);
+    return(<div>
+            {data}
+          </div>);
   }
 }
 

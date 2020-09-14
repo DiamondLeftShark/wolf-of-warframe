@@ -47,8 +47,8 @@ app.get('/lastupdate', function(req, res) {
 app.get('/ducats', function(req, res) {
   //TBD: update page and offset with values from request header
   let page = 0;
-  let offset = 50;
-  db.getDucatList(page, offset, (result) => {
+  let limit = 50;
+  db.getDucatList(page, limit, (result) => {
     if(result === null) {
       res.status(500).end();
     } else {
