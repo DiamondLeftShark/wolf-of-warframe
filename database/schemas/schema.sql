@@ -25,3 +25,9 @@ create table ducat_info (
   volume int not null,
   ducats_per_plat decimal not null
 );
+
+/*tracks user inventory*/
+create table user_inventory (
+  id varchar(50) not null,
+  quantity int default 0
+);
