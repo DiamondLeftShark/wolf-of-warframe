@@ -63,6 +63,21 @@ function replaceDucatInfo(dataSet, callback) {
 
 /*------------------------------Server calls------------------------------------------*/
 
+//Updates update_log with current datetime value
+var updateDate = function(callback) {
+  let date = new Date();
+  db.query(`insert into update_log values('${date.toISOString().slice(0, 19).replace('T', ' ')}');`, function(error, result) {
+    if(error) {
+      console.log("Error inserting to update_log");
+      console.log(error);
+      callback(false);
+    } else {
+      console.log("Update_log table updated.");
+      callback(true);
+    }
+  })
+}
+
 //connect to WFM and populate database with latest data
 var getData = function(callback) {
   console.log("Downloading item data from Warframe Market...");
@@ -104,3 +119,4 @@ var getData = function(callback) {
 }
 
 module.exports.getData = getData;
+module.exports.updateDate = updateDate;

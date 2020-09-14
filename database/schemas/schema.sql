@@ -6,7 +6,7 @@ use wolfofwarframe;
 
 /*Table used to check when data was last updated: system should load data or prompt user to do so when market data is too far out of date*/
 create table update_log (
-  last_updated date
+  last_updated datetime
 );
 
 /*basic item list: contains items and their basic reference information*/

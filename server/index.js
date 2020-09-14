@@ -9,5 +9,8 @@ db.getData((result) => {
     console.log("Error retrieving data.");
   } else {
     console.log("Data sucessfully loaded!");
+    db.updateDate((success) => {
+      console.log(success);
+    });
   }
 });
