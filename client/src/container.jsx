@@ -22,9 +22,11 @@ class Container extends React.Component {
   //gets latest data from Warframe Market API and updates the database.
   getLatestData() {
     let url = rootUrl.concat('latest');
+    this.setState({currentTab: 'loading'});
     axios.get(url)
     .then((result) => {
       console.log("Latest data from Warframe Market retrieved.");
+      this.setState  ({currentTab: 'landing'});
     })
     .catch((error) => {
       console.log("Error updating data, please try again.");
@@ -33,6 +35,9 @@ class Container extends React.Component {
 
   //check current tab and return appropriate component
   getCurrentTab() {
+    if(this.state.currentTab === 'loading') {
+      return (<div>Retrieving latest data from Warframe Market...</div>);
+    }
     if(this.state.currentTab === 'landing') {
       return <Landing />;
     }
