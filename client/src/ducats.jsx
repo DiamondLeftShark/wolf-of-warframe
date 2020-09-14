@@ -13,6 +13,7 @@ class Ducats extends React.Component {
     this.state = {
       ducatData: null,
       page: 0,
+      numRecords: 9999,
       limit: 50
     }
 
@@ -44,7 +45,7 @@ class Ducats extends React.Component {
     let url = rootUrl.concat('ducats');
     axios.get(url)
     .then((results) => {
-      console.log(results);
+      console.log(results.data);
       this.setState({ducatData: results.data});
     })
     .catch((error) => {
@@ -56,6 +57,7 @@ class Ducats extends React.Component {
     let data = this.generateList();
     console.log(data);
     return(<div>
+            <h3>Best Items for Ducats</h3>
             {data}
           </div>);
   }

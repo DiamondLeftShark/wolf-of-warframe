@@ -138,10 +138,10 @@ var getData = function(callback) {
 }
 
 //retrieve ducat information stored in the database.
-var getDucatList = function(page=0, limit=100, callback) {
+var getDucatList = function(page=0, limit=10, callback) {
   //calculate offset from page * limit;
   let offset = page * limit;
-  db.query(`select item_name, ducats, ducats_per_plat, thumb from item_info, ducat_info where item_info.id = ducat_info.item_id order by ducats_per_plat desc, item_name limit ${limit} offset ${offset};`, function(error, result) {
+  db.query(`select item_info.id, item_name, ducats, ducats_per_plat, thumb from item_info, ducat_info where item_info.id = ducat_info.item_id order by ducats_per_plat desc, item_name limit ${limit} offset ${offset};`, function(error, result) {
     if(error) {
       console.log("Error retrieving ducat data from local database.");
       callback(null);
@@ -152,7 +152,22 @@ var getDucatList = function(page=0, limit=100, callback) {
   });
 }
 
+//retrieve hot items (highest trades by volume).  Currently uses volume data from ducat table.
+var getHotItemList = function(page=0, limit=10, callback) {
+  let offset = page * limit;
+  db.query(`select item_info.id, item_name, volume, thumb from item_info, ducat_info where item_info.id = ducat_info.item_id order by volume desc, item_name limit ${limit} offset ${offset};`, function(error, result) {
+    if(error) {
+      console.log("Error retrieving hot item data from local database.");
+      callback(null);
+    } else {
+      console.log(`Hot item data for page ${page} with ${limit} records retrieved`);
+      callback(result);
+    }
+  });
+}
+
 module.exports.updateDate = updateDate;
 module.exports.getUpdateDate = getUpdateDate;
 module.exports.getData = getData;
 module.exports.getDucatList = getDucatList;
+module.exports.getHotItemList = getHotItemList;
