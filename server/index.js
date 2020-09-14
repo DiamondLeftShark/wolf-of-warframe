@@ -4,4 +4,10 @@ const bodyParser = require('body-parser');
 const db = require('../database/index.js');
 
 //testing
-db.loadData();
+db.getData((result) => {
+  if(result === 'ERROR') {
+    console.log("Error retrieving data.");
+  } else {
+    console.log("Data sucessfully loaded!");
+  }
+});
