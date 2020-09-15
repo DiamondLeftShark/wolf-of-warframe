@@ -6,17 +6,20 @@ import Landing from './landing.jsx';
 import Ducats from './ducats.jsx';
 import HotItems from './hot_items.jsx';
 import rootUrl from './url.jsx';
+import Inventory from './inventory.jsx';
 
 class Container extends React.Component {
   constructor(props){
     super(props);
 
     this.state = {
-      currentTab: 'landing'
+      currentTab: 'landing',
+      inventory: null
     };
     this.getCurrentTab = this.getCurrentTab.bind(this);
     this.setCurrentTab = this.setCurrentTab.bind(this);
     this.getLatestData = this.getLatestData.bind(this);
+    this.getInventory = this.getInventory.bind(this);
   }
 
   //gets latest data from Warframe Market API and updates the database.
@@ -33,6 +36,19 @@ class Container extends React.Component {
     });
   }
 
+  getInventory() {
+    let url=rootUrl.concat('inventory');
+    axios.get(url)
+    .then((result) => {
+      console.log("User inventory data retrieved.");
+      console.log(result.data);
+      this.setState({inventory: result.data});
+    })
+    .catch((error) => {
+      console.log("Error getting inventory data, please try again.");
+    });
+  }
+
   //check current tab and return appropriate component
   getCurrentTab() {
     if(this.state.currentTab === 'loading') {
@@ -42,10 +58,13 @@ class Container extends React.Component {
       return <Landing />;
     }
     if(this.state.currentTab === 'ducats') {
-      return <Ducats />;
+      return <Ducats inventory={this.state.inventory}/>;
     }
     if(this.state.currentTab === 'hot') {
-      return <HotItems />;
+      return <HotItems inventory={this.state.inventory}/>;
+    }
+    if(this.state.currentTab === 'inventory') {
+      return <Inventory inventory={this.state.inventory} getInventory={this.getInventory}/>;
     }
     //default to landing page if invalid tab is provided
     else {
@@ -56,6 +75,10 @@ class Container extends React.Component {
   //set current tab based on argument passed to function
   setCurrentTab(tab) {
     this.setState({currentTab: tab});
+  }
+
+  componentDidMount() {
+    this.getInventory();
   }
 
   render() {

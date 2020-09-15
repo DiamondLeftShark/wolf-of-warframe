@@ -72,6 +72,16 @@ app.get('/hotitems', function(req, res) {
   });
 });
 
+app.get('/inventory', function(req, res){
+  db.getInventoryList((result) => {
+    if(result === null) {
+      res.status(500).end();
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 //start listener
 app.listen(3000, function() {
   console.log('listening on port 3000!');

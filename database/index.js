@@ -64,7 +64,17 @@ function replaceDucatInfo(dataSet, callback) {
 //populates user inventory with item IDs for further manipulation from user.  Since table tracks user items,
 //should only insert records for items that do not currently exist.
 function populateInventory(callback) {
-  console.log("TBD");
+  console.log("Updating inventory table...");
+  db.query(`insert into user_inventory (id) (select distinct id from item_info where id not in (select distinct id from user_inventory));`, function(error, result) {
+    if(error) {
+      console.log("Error updating inventory table.");
+      console.log(error);
+      callback(false);
+    } else {
+      console.log("Inventory table updated.");
+      callback(true);
+    }
+  });
 }
 
 /*------------------------------Public functions------------------------------------------*/
@@ -127,7 +137,15 @@ var getData = function(callback) {
           if(!success) {
             callback('ERROR');
           } else {
-            callback('SUCCESS');
+             console.log("Updating user inventory...");
+            //populate inventory table
+            populateInventory((success) => {
+              if(!success) {
+                callback('ERROR');
+              } else {
+                callback('SUCCESS');
+              }
+            });
           }
         });
 
@@ -166,8 +184,22 @@ var getHotItemList = function(page=0, limit=10, callback) {
   });
 }
 
+//get user inventory
+var getInventoryList = function(callback) {
+  db.query(`select item_info.id, item_name, quantity, thumb from item_info, user_inventory where item_info.id = user_inventory.id order by item_name;`, function(error, result) {
+    if(error) {
+      console.log("Error retrieving inventory from local database.");
+      callback(null);
+    } else {
+      console.log(`Inventory data retrieved`);
+      callback(result);
+    }
+  });
+}
+
 module.exports.updateDate = updateDate;
 module.exports.getUpdateDate = getUpdateDate;
 module.exports.getData = getData;
 module.exports.getDucatList = getDucatList;
 module.exports.getHotItemList = getHotItemList;
+module.exports.getInventoryList = getInventoryList;
