@@ -53,6 +53,9 @@ class Inventory extends React.Component {
   }
 
   generateList() {
+    if(document.getElementById('inventory-form') !== null){
+      document.getElementById('inventory-form').reset();
+    }
     if (this.props.inventory === null) {
       return <div>Retrieving inventory data...</div>;
     } else {
@@ -64,7 +67,7 @@ class Inventory extends React.Component {
         output.push(<div>
                       <img src={thumbnailUrl}/>
                       <div>{this.props.inventory[i].item_name}</div>
-                      <div>Quantity: <input type="number" inventoryId={i} itemId={this.props.inventory[i].id} min="0" max="99999" step="1" placeholder={defaultValue} onChange={(event)=>{this.updateInventory(event,i,this.props.inventory[i].id)}}></input></div>
+                      <div>Quantity: <input type="number" inventoryId={i} itemId={this.props.inventory[i].id} min="0" max="99999" step="1" defaultValue={defaultValue} onChange={(event)=>{this.updateInventory(event,i,this.props.inventory[i].id)}}></input></div>
                     </div>);
       }
       return output;
@@ -80,7 +83,7 @@ class Inventory extends React.Component {
     return(<div>
             <h3>Your Inventory:</h3>
             <Pagination page={this.state.page} prev={()=>{this.changePage(-1)}} next={()=>{this.changePage(1)}}/>
-            {data}
+            <form id="inventory-form">{data}</form>
             <Pagination page={this.state.page} prev={()=>{this.changePage(-1)}} next={()=>{this.changePage(1)}}/>
           </div>)
   }

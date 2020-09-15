@@ -8,7 +8,7 @@ class Pagination extends React.Component{
 
   render() {
     return(<div>
-      <span onClick={this.props.prev}>Previous</span> (Page {this.props.page}) <span onClick={this.props.next}>Next</span>
+      <span onClick={this.props.prev}><b>Previous</b></span> (Page {this.props.page}) <span onClick={this.props.next}><b>Next</b></span>
     </div>)
   }
 }

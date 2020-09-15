@@ -15,9 +15,11 @@ class HotItems extends React.Component {
       hotItemData: null,
       page: 0,
       numRecords: 9999,
-      limit: 50
+      limit: 10
     }
     this.generateList = this.generateList.bind(this);
+    this.changePage = this.changePage.bind(this);
+    this.getInformation = this.getInformation.bind(this);
   }
 
   changePage(increment) {
