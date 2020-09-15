@@ -26,7 +26,7 @@ class Inventory extends React.Component {
         output.push(<div>
                       <img src={thumbnailUrl}/>
                       <div>{this.props.inventory[i].item_name}</div>
-                      <div>Quantity: {this.props.inventory[i].quantity}</div>
+                      <div>Quantity: <input type="number" min="0" max="99999" step="1" defaultValue={this.props.inventory[i].quantity}></input></div>
                     </div>);
       }
       return output;
