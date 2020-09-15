@@ -83,8 +83,8 @@ app.get('/inventory', function(req, res){
 });
 
 app.patch('/inventory', function(req,res) {
-  console.log(req.query);
-  let params = req.query;
+  console.log(req.body);
+  let params = req.body;
   db.updateInventory(params.id,params.quantity, (result) => {
     if(result === null) {
       res.status(500).end();
