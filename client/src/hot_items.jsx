@@ -20,6 +20,31 @@ class HotItems extends React.Component {
     this.generateList = this.generateList.bind(this);
   }
 
+  changePage(increment) {
+    let newPage = this.state.page + increment;
+    console.log(newPage);
+    if(newPage >= 0) {
+      this.setState({page: newPage}, (() => {this.getInformation()}));
+    }
+  }
+
+  getInformation() {
+    console.log(`Getting information for page ${this.state.page}`);
+    let url = rootUrl.concat('hotitems');
+    let params = {
+      page: this.state.page,
+      limit: this.state.limit
+    };
+    axios.get(url, {params})
+    .then((results) => {
+      //console.log(results.data);
+      this.setState({hotItemData: results.data});
+    })
+    .catch((error) => {
+      console.log("error");
+    })
+  }
+
   generateList() {
     if(this.state.hotItemData === null) {
       return(<div>Retrieving data...</div>);
@@ -54,9 +79,9 @@ class HotItems extends React.Component {
     console.log(data);
     return(<div>
             <h3>Hot Items by Volume</h3>
-            <Pagination page={this.state.page}/>
+            <Pagination page={this.state.page} prev={()=>{this.changePage(-1)}} next={()=>{this.changePage(1)}}/>
             {data}
-            <Pagination page={this.state.page}/>
+            <Pagination page={this.state.page} prev={()=>{this.changePage(-1)}} next={()=>{this.changePage(1)}}/>
           </div>);
   }
 }

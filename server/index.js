@@ -46,7 +46,7 @@ app.get('/lastupdate', function(req, res) {
 //get ducat data from local database.
 //Function expects a page and limit in the header: assumes 0 and 50 respectively if not provided.
 app.get('/ducats', function(req, res) {
-  console.log(req);
+  //console.log(req);
   let page = req.query.page;
   let limit = req.query.limit;
   console.log(page);
@@ -64,8 +64,8 @@ app.get('/ducats', function(req, res) {
 //get hot item data from locatl database.
 //function expects a page and limit in the header, assumes 0 and 50 respectively if not provided.
 app.get('/hotitems', function(req, res) {
-  let page = 0;
-  let limit = 50;
+  let page = req.query.page;
+  let limit = req.query.limit;
   db.getHotItemList(page, limit, (result) => {
     if(result === null) {
       res.status(500).end();
