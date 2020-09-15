@@ -31,9 +31,20 @@ class Ducats extends React.Component {
       let output = [];
       for(let i = 0; i < this.state.ducatData.length; i++) {
         let thumbnailUrl = wfmAssetUrl.concat(this.state.ducatData[i].thumb);
+        let quantity = 0;
+        for(let j = 0; j < this.props.inventory.length; j++) {
+          if (this.state.ducatData[i].id === this.props.inventory[j].id) {
+            quantity = this.props.inventory[j].quantity;
+          }
+        }
+        let owned = '';
+        if(quantity > 0) {
+          owned = (<div><b>You own {quantity}</b></div>);
+        }
         output.push(<div>
                       <img src={thumbnailUrl}/>
                       <div>{this.state.ducatData[i].item_name}</div>
+                      {owned}
                       <div>Value: {this.state.ducatData[i].ducats}</div>
                       <div>Ducats/platinum: {this.state.ducatData[i].ducats_per_plat}</div>
                     </div>);

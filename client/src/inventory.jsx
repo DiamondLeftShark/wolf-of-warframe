@@ -11,11 +11,20 @@ class Inventory extends React.Component {
     this.state = {
       page: 0,
       numRecords: this.props.inventory.length,
-      limit: 50
+      limit: 10
     }
 
     this.generateList = this.generateList.bind(this);
     this.updateInventory = this.updateInventory.bind(this);
+    this.changePage = this.changePage.bind(this);
+  }
+
+  changePage(increment) {
+    let newPage = this.state.page + increment;
+    console.log(newPage);
+    if(newPage >= 0) {
+      this.setState({page: newPage});
+    }
   }
 
   //TBD: debounce query with delay so that database update is only sent after user stops modifying quantity
@@ -24,7 +33,7 @@ class Inventory extends React.Component {
     if(event.target.value === '') {
       console.log("not a number");
     } else {
-      this.props.inventory[inventoryId].quantity = event.target.value;
+      this.props.inventory[inventoryId].quantity = Number(event.target.value);
 
       //pass data to database
       let params = {
@@ -49,11 +58,13 @@ class Inventory extends React.Component {
     } else {
       let output = [];
       for(let i = this.state.page * this.state.limit; i < (this.state.page+1) * this.state.limit; i++) {
+        console.log(this.props.inventory[i]);
         let thumbnailUrl = wfmAssetUrl.concat(this.props.inventory[i].thumb);
+        let defaultValue = this.props.inventory[i].quantity;
         output.push(<div>
                       <img src={thumbnailUrl}/>
                       <div>{this.props.inventory[i].item_name}</div>
-                      <div>Quantity: <input type="number" inventoryId={i} itemId={this.props.inventory[i].id} min="0" max="99999" step="1" defaultValue={this.props.inventory[i].quantity} onChange={(event)=>{this.updateInventory(event,i,this.props.inventory[i].id)}}></input></div>
+                      <div>Quantity: <input type="number" inventoryId={i} itemId={this.props.inventory[i].id} min="0" max="99999" step="1" placeholder={defaultValue} onChange={(event)=>{this.updateInventory(event,i,this.props.inventory[i].id)}}></input></div>
                     </div>);
       }
       return output;
@@ -68,9 +79,9 @@ class Inventory extends React.Component {
     let data = this.generateList();
     return(<div>
             <h3>Your Inventory:</h3>
-            <Pagination page={this.state.page}/>
+            <Pagination page={this.state.page} prev={()=>{this.changePage(-1)}} next={()=>{this.changePage(1)}}/>
             {data}
-            <Pagination page={this.state.page}/>
+            <Pagination page={this.state.page} prev={()=>{this.changePage(-1)}} next={()=>{this.changePage(1)}}/>
           </div>)
   }
 }
