@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import rootUrl from './url.jsx';
 import wfmAssetUrl from './wfm_asset_url.jsx';
+import Pagination from './pagination.jsx';
 
 class Inventory extends React.Component {
   constructor(props){
@@ -66,7 +67,9 @@ class Inventory extends React.Component {
   render() {
     let data = this.generateList();
     return(<div>
+            <Pagination page={this.state.page}/>
             {data}
+            <Pagination page={this.state.page}/>
           </div>)
   }
 }
