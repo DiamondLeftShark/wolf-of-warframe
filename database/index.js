@@ -197,9 +197,24 @@ var getInventoryList = function(callback) {
   });
 }
 
+//Update the quantity of a provided item_id in user_inventory with the specified quantity.
+var updateInventory = function(id, quantity, callback) {
+  db.query(`update user_inventory set quantity=${quantity} where id='${id}';`, function(error,result) {
+    if(error) {
+      console.log(`Error updating inventory record ${id}`);
+      console.log(error);
+      callback(null);
+    } else {
+      console.log('Record updated.');
+      callback(result);
+    }
+  });
+}
+
 module.exports.updateDate = updateDate;
 module.exports.getUpdateDate = getUpdateDate;
 module.exports.getData = getData;
 module.exports.getDucatList = getDucatList;
 module.exports.getHotItemList = getHotItemList;
 module.exports.getInventoryList = getInventoryList;
+module.exports.updateInventory = updateInventory;

@@ -82,6 +82,18 @@ app.get('/inventory', function(req, res){
   });
 });
 
+app.patch('/inventory', function(req,res) {
+  console.log(req.query);
+  let params = req.query;
+  db.updateInventory(params.id,params.quantity, (result) => {
+    if(result === null) {
+      res.status(500).end();
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 //start listener
 app.listen(3000, function() {
   console.log('listening on port 3000!');
