@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import rootUrl from './url.jsx';
 import wfmAssetUrl from './wfm_asset_url.jsx';
+import Pagination from './pagination.jsx';
 
 
 class Ducats extends React.Component {
@@ -14,10 +15,12 @@ class Ducats extends React.Component {
       ducatData: null,
       page: 0,
       numRecords: 9999,
-      limit: 50
+      limit: 10
     }
 
     this.generateList = this.generateList.bind(this);
+    this.changePage = this.changePage.bind(this);
+    this.getInformation = this.getInformation.bind(this);
   }
 
   //generates a list of data for ducat data.  If no data is present, display a message
@@ -39,10 +42,39 @@ class Ducats extends React.Component {
     }
   }
 
+  changePage(increment) {
+    let newPage = this.state.page + increment;
+    console.log(newPage);
+    if(newPage >= 0) {
+      this.setState({page: newPage}, (() => {this.getInformation()}));
+    }
+  }
+
+  getInformation() {
+    console.log(`Getting information for page ${this.state.page}`);
+    let url = rootUrl.concat('ducats');
+    let params = {
+      page: this.state.page,
+      limit: this.state.limit
+    };
+    axios.get(url, {params})
+    .then((results) => {
+      //console.log(results.data);
+      this.setState({ducatData: results.data});
+    })
+    .catch((error) => {
+      console.log("error");
+    })
+  }
+
   //get latest data from the database
   //TBD: pass in page/offset information
   componentDidMount() {
     let url = rootUrl.concat('ducats');
+    let params = {
+      page: this.state.page,
+      limit: this.state.limit
+    };
     axios.get(url)
     .then((results) => {
       console.log(results.data);
@@ -58,7 +90,9 @@ class Ducats extends React.Component {
     console.log(data);
     return(<div>
             <h3>Best Items for Ducats</h3>
+            <Pagination page={this.state.page} prev={()=>{this.changePage(-1)}} next={()=>{this.changePage(1)}}/>
             {data}
+            <Pagination page={this.state.page} prev={()=>{this.changePage(-1)}} next={()=>{this.changePage(1)}}/>
           </div>);
   }
 }

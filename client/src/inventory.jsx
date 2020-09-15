@@ -67,6 +67,7 @@ class Inventory extends React.Component {
   render() {
     let data = this.generateList();
     return(<div>
+            <h3>Your Inventory:</h3>
             <Pagination page={this.state.page}/>
             {data}
             <Pagination page={this.state.page}/>

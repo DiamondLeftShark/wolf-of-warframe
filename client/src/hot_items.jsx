@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import rootUrl from './url.jsx';
 import wfmAssetUrl from './wfm_asset_url.jsx';
+import Pagination from './pagination.jsx';
 
 
 class HotItems extends React.Component {
@@ -53,7 +54,9 @@ class HotItems extends React.Component {
     console.log(data);
     return(<div>
             <h3>Hot Items by Volume</h3>
+            <Pagination page={this.state.page}/>
             {data}
+            <Pagination page={this.state.page}/>
           </div>);
   }
 }
